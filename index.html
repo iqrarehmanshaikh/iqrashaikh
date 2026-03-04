@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Bestie 🎉</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #fad0c4);
+      background-size: 400% 400%;
+      animation: gradientBG 8s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .typing::after {
+      content: "|";
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center px-4">
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="your-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="bg-white shadow-2xl rounded-2xl p-8 max-w-md w-full text-center relative z-10">
+
+    <!-- First Screen -->
+    <div id="firstScreen">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-pink-500 mb-6 animate-bounce">
+        🎉 Happy Birthday Bestfriend 🎉
+      </h1>
+
+      <button onclick="startSurprise()" 
+        class="px-6 py-3 bg-pink-500 text-white rounded-xl shadow-lg hover:bg-pink-600 hover:scale-105 transition transform duration-300">
+        Click Here 💖
+      </button>
+    </div>
+
+    <!-- Surprise Screen -->
+    <div id="secondScreen" class="hidden">
+      <h2 class="text-3xl font-bold text-purple-600 mb-4">
+        🎊 Surpriseeeee 🎊
+      </h2>
+
+      <div class="text-5xl mb-4 animate-pulse">🥳🎉💃✨</div>
+
+      <p id="loveMessage" class="text-lg text-gray-700 mt-4 typing"></p>
+    </div>
+
+  </div>
+
+  <script>
+    const message = `To my forever BestFriend 💕
+You are my safe place, my happiness, my biggest support system.
+Life feels brighter and more beautiful with you!
+Thank you for the laughter, the memories, and the unconditional love.
+I am so lucky to have you as my best friend.
+I Love you forever and ever and ever 💖🎂✨`;
+
+    function startSurprise() {
+      document.getElementById("firstScreen").classList.add("hidden");
+      document.getElementById("secondScreen").classList.remove("hidden");
+
+      // Play music (autoplay works after user click)
+      document.getElementById("bgMusic").play();
+
+      celebrate();
+      typeMessage();
+      createHearts();
+    }
+
+    function celebrate() {
+      confetti({
+        particleCount: 200,
+        spread: 120,
+        origin: { y: 0.6 }
+      });
+
+      setTimeout(() => {
+        confetti({ particleCount: 150, spread: 160, origin: { x: 0.1 } });
+        confetti({ particleCount: 150, spread: 160, origin: { x: 0.9 } });
+      }, 400);
+    }
+
+    function typeMessage() {
+      let i = 0;
+      const speed = 40;
+      const element = document.getElementById("loveMessage");
+
+      function typing() {
+        if (i < message.length) {
+          element.innerHTML += message.charAt(i) === "\n" ? "<br>" : message.charAt(i);
+          i++;
+          setTimeout(typing, speed);
+        }
+      }
+
+      typing();
+    }
+
+    function createHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
